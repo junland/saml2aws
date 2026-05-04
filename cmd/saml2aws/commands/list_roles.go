@@ -148,6 +148,15 @@ func listRoles(awsRoles []*saml2aws.AWSRole, samlAssertion string, loginFlags *f
 		return nil
 	}
 
+	if loginFlags.JSONPretty {
+		output, err := json.MarshalIndent(awsAccounts, "", "  ")
+		if err != nil {
+			return errors.Wrap(err, "error marshalling accounts to JSON")
+		}
+		fmt.Println(string(output))
+		return nil
+	}
+
 	log.Println("")
 	for _, account := range awsAccounts {
 		fmt.Println(account.Name)
